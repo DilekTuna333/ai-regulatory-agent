@@ -1,0 +1,9 @@
+chat_task:
+  description: >
+    User said: {query}
+
+    If the user asks about the weather in a city, call the weather_by_city tool.
+    Otherwise, answer conversationally.
+  expected_output: >
+    A friendly chat answer or current weather information.
+  agent: weather_chat_agent
