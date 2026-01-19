@@ -4,7 +4,8 @@ from crewai import Agent, Crew, Process, Task
 from crewai.agents.agent_builder.base_agent import BaseAgent
 from crewai.project import CrewBase, agent, crew, task
 
-from weather_chat_amp.tools.weather_tool import weather_by_city
+from .tools.weather_tool import weather_by_city
+
 
 
 @CrewBase  # REQUIRED for AMP deployments

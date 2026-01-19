@@ -3,7 +3,8 @@ import json
 import os
 import sys
 
-from weather_chat_amp.crew import WeatherChatCrew
+from .crew import WeatherChatCrew
+
 
 
 def run(inputs=None, **kwargs):
