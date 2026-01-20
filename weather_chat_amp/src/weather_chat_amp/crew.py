@@ -1,10 +1,40 @@
+from __future__ import annotations
+
+import os
 from typing import List
 
-from crewai import Agent, Crew, Process, Task
+from crewai import Agent, Crew, Process, Task, LLM
 from crewai.agents.agent_builder.base_agent import BaseAgent
 from crewai.project import CrewBase, agent, crew, task
 
 from .tools.weather_tool import weather_by_city
+
+
+def build_azure_llm() -> LLM:
+    """Create Azure LLM instance from env vars (Azure OpenAI)."""
+
+    api_key = os.environ.get("AZURE_OPENAI_API_KEY")
+    endpoint = os.environ.get("AZURE_OPENAI_ENDPOINT")
+    api_version = os.environ.get("AZURE_OPENAI_API_VERSION", "2024-12-01-preview")
+    deployment = os.environ.get("AZURE_DEPLOYMENT_NAME")
+
+    missing = []
+    if not api_key:
+        missing.append("AZURE_OPENAI_API_KEY")
+    if not endpoint:
+        missing.append("AZURE_OPENAI_ENDPOINT")
+    if not deployment:
+        missing.append("AZURE_DEPLOYMENT_NAME")
+
+    if missing:
+        raise RuntimeError(f"Missing env var(s): {', '.join(missing)}")
+
+    return LLM(
+        model=f"azure/{deployment}",
+        api_key=api_key,
+        base_url=endpoint,
+        api_version=api_version,
+    )
 
 
 
@@ -17,9 +47,11 @@ class WeatherChatCrew:
 
     @agent
     def weather_chat_agent(self) -> Agent:
+        azure_llm = build_azure_llm()
         return Agent(
             config=self.agents_config["weather_chat_agent"],  # type: ignore[index]
             tools=[weather_by_city],
+            llm=azure_llm,
         )
 
     @task

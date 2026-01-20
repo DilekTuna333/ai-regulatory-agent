@@ -1,0 +1,12 @@
+README.md
+pyproject.toml
+src/weather_chat_amp/__init__.py
+src/weather_chat_amp/crew.py
+src/weather_chat_amp/main.py
+src/weather_chat_amp.egg-info/PKG-INFO
+src/weather_chat_amp.egg-info/SOURCES.txt
+src/weather_chat_amp.egg-info/dependency_links.txt
+src/weather_chat_amp.egg-info/requires.txt
+src/weather_chat_amp.egg-info/top_level.txt
+src/weather_chat_amp/tools/__init__.py
+src/weather_chat_amp/tools/weather_tool.py
