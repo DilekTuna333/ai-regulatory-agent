@@ -1,9 +1,10 @@
 import requests
+from crewai.tools import tool
 
+@tool("weather_by_city")
 def weather_by_city(city: str) -> str:
     """Return current weather for a city using Open-Meteo (no API key required)."""
 
-    # 1) Geocoding (city -> lat/lon)
     geo_url = "https://geocoding-api.open-meteo.com/v1/search"
     geo_resp = requests.get(geo_url, params={"name": city, "count": 1}, timeout=20)
     geo_resp.raise_for_status()
@@ -18,7 +19,6 @@ def weather_by_city(city: str) -> str:
     name = loc.get("name", city)
     country = loc.get("country", "")
 
-    # 2) Forecast (lat/lon -> current)
     weather_url = "https://api.open-meteo.com/v1/forecast"
     weather_resp = requests.get(
         weather_url,
